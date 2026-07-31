@@ -1,0 +1,29 @@
+{
+  "name": "bimera-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bimera Website - Monorepo for Next.js 14 frontend and Express.js backend",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev:backend": "npm --prefix backend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "build:backend": "npm --prefix backend run build",
+    "start:backend": "npm --prefix backend run start"
+  },
+  "keywords": [
+    "bimera",
+    "agriculture",
+    "elevage",
+    "informatique",
+    "technique",
+    "nextjs",
+    "express",
+    "prisma"
+  ],
+  "author": "Bimera Group",
+  "license": "MIT"
+}

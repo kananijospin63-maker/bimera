@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  MEMBER
+  VISITOR
+}
+
+enum AccountStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum CategoryActivity {
+  AGRICULTURE
+  ELEVAGE
+  INFORMATIQUE
+  TECHNIQUE
+  GENERAL
+}
+
+model User {
+  id               String        @id @default(uuid())
+  email            String        @unique
+  passwordHash     String
+  fullName         String
+  role             Role          @default(VISITOR)
+  status           AccountStatus @default(PENDING)
+  twoFactorEnabled Boolean       @default(false)
+  twoFactorSecret  String?
+  avatarUrl        String?
+  articles         Article[]
+  medias           Media[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Page {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  description String?
+  published   Boolean  @default(true)
+  blocks      Json     // Array of modular content blocks { type, data }
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Article {
+  id          String           @id @default(uuid())
+  slug        String           @unique
+  title       String
+  summary     String
+  content     String
+  category    CategoryActivity @default(GENERAL)
+  published   Boolean          @default(true)
+  imageUrl    String?
+  authorId    String
+  author      User             @relation(fields: [authorId], references: [id])
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Event {
+  id          String           @id @default(uuid())
+  title       String
+  description String
+  location    String
+  eventDate   DateTime
+  category    CategoryActivity @default(GENERAL)
+  published   Boolean          @default(true)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model Media {
+  id         String           @id @default(uuid())
+  filename   String
+  url        String
+  mimeType   String
+  size       Int
+  category   CategoryActivity @default(GENERAL)
+  uploaderId String?
+  uploader   User?            @relation(fields: [uploaderId], references: [id])
+  createdAt  DateTime         @default(now())
+}
+
+model ContactMessage {
+  id        String   @id @default(uuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  status    String   @default("PENDING") // PENDING, READ, REPLIED
+  createdAt DateTime @default(now())
+}
+
+model BackupLog {
+  id        String   @id @default(uuid())
+  filename  String
+  status    String   // SUCCESS, FAILED
+  size      Int
+  createdAt DateTime @default(now())
+}
+
+model Newsletter {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}

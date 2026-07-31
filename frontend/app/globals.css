@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+    --bg-main: #050810;
+    --bg-surface: #0c1322;
+    --text-main: #e5e7eb;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeSpeed;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.65;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  *:focus-visible {
+    outline: 3px solid #10b981;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
+}
+
+/* ── Glass surfaces — blur réduit pour les perfs ── */
+.glass-panel {
+  background: rgba(12, 19, 34, 0.92);
+  /* backdrop-filter désactivé sur mobile, léger sur desktop */
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+@media (min-width: 768px) {
+  .glass-panel {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+.glass-nav {
+  background: rgba(5, 8, 16, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 768px) {
+  .glass-nav {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+/* ── Card hover — will-change pour préparer le GPU ── */
+.glass-card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  will-change: transform;
+}
+.glass-card-hover:hover {
+  transform: translateY(-4px);
+  border-color: rgba(16, 185, 129, 0.3);
+  box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.12);
+}
+
+/* ── Text gradients ── */
+.gradient-text {
+  background: linear-gradient(135deg, #6ee7b7 0%, #10b981 45%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #d97706 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Sections ── */
+.section-padding    { @apply py-section px-4 sm:px-6 lg:px-8; }
+.section-padding-lg { @apply py-section-lg px-4 sm:px-6 lg:px-8; }
+.section-container  { @apply max-w-7xl mx-auto; }
+.section-label      { @apply inline-flex items-center text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full border mb-3; }
+.section-title      { @apply text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight; }
+.section-subtitle   { @apply text-gray-300 text-sm sm:text-base lg:text-lg leading-relaxed max-w-3xl; }
+
+/* ── Scroll animations (only when prefers-reduced-motion is off) ── */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #050810; }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #047857; }
+
+/* ── Selection ── */
+::selection { background: rgba(16, 185, 129, 0.25); color: white; }
