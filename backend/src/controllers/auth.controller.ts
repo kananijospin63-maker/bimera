@@ -64,7 +64,7 @@ export class AuthController {
         });
       }
 
-      const token = jwt.sign(
+      const token = (jwt as any).sign(
         { id: user.id, email: user.email, role: user.role },
         ENV.JWT_SECRET,
         { expiresIn: ENV.JWT_EXPIRES_IN }
