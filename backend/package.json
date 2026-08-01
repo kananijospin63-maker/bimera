@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "npx prisma generate && ./node_modules/.bin/tsc",
+    "build": "npx prisma generate && npx tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push"
@@ -24,6 +24,7 @@
     "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.10",
+    "typescript": "5.3.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -34,7 +35,6 @@
     "@types/node": "^20.11.0",
     "@types/nodemailer": "^6.4.14",
     "prisma": "^5.10.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "5.3.3"
+    "ts-node-dev": "^2.0.0"
   }
 }
